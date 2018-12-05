@@ -16,6 +16,17 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "jszip": [
+        "node_modules/jszip/dist/jszip.min.js"
+      ],
+      "generic-crud-lib": [
+        "dist/generic-crud-lib"
+      ],
+      "generic-crud-lib/*": [
+        "dist/generic-crud-lib/*"
+      ]
+    }
   }
 }

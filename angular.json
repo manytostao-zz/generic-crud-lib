@@ -27,6 +27,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/devextreme/dist/css/dx.common.css",
+              "node_modules/devextreme/dist/css/dx.light.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -127,6 +129,41 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "generic-crud-lib": {
+      "root": "projects/generic-crud-lib",
+      "sourceRoot": "projects/generic-crud-lib/src",
+      "projectType": "library",
+      "prefix": "gcl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/generic-crud-lib/tsconfig.lib.json",
+            "project": "projects/generic-crud-lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/generic-crud-lib/src/test.ts",
+            "tsConfig": "projects/generic-crud-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/generic-crud-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/generic-crud-lib/tsconfig.lib.json",
+              "projects/generic-crud-lib/tsconfig.spec.json"
+            ],
             "exclude": [
               "**/node_modules/**"
             ]

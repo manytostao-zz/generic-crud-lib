@@ -1,0 +1,234 @@
+<dx-toolbar
+  [class]="cssClass"
+  (onItemClick)="handleItemClickedEvent($event)">
+
+  <ng-template [ngIf]="showDefaultButtons">
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Select the highlighted element'}"
+              [visible]="showAcceptButton"
+              [type]="toolbarItemType.Accept"
+              text="Accept"
+              location="before"
+              locateInMenu="auto"
+              template="basicAcceptTemplate"
+              menuItemTemplate="basicMenuTemplate">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicAcceptTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          icon="check"
+          [id]="toolbarItemsIds['accept']">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['accept']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = dataItem of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Cancel the current operation'}"
+              [visible]="showAcceptButton"
+              [type]="toolbarItemType.Cancel"
+              text="Cancel"
+              location="before"
+              locateInMenu="auto"
+              template="basicCancelTemplate"
+              menuItemTemplate="basicMenuTemplate">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicCancelTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          icon="close"
+          [id]="toolbarItemsIds['cancel']">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['cancel']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = dataItem of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Add a new element'}"
+              [visible]="showAddButton"
+              [type]="toolbarItemType.Add"
+              text="Add"
+              location="before"
+              locateInMenu="auto"
+              template="basicAddTemplate"
+              menuItemTemplate="basicMenuTemplate">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicAddTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          icon="add"
+          [id]="toolbarItemsIds['add']">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['add']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = dataItem of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Edit selected element'}"
+              [visible]="showEditButton"
+              location="before"
+              [type]="toolbarItemType.Edit"
+              text="Edit"
+              locateInMenu="auto"
+              template="basicEditTemplate"
+              menuItemTemplate="basicMenuTemplate"
+              [disabled]="disable([{type: 'rowSelection', values:['multiple']}])">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicEditTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          icon="edit"
+          [id]="toolbarItemsIds['edit']">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['edit']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = data of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Remove selected element'}"
+              [visible]="showRemoveButton"
+              [type]="toolbarItemType.Remove"
+              text='Delete'
+              location="before"
+              template="basicRemoveTemplate"
+              menuItemTemplate="basicMenuTemplate"
+              locateInMenu="auto"
+              [disabled]="disable([{type: 'rowSelection', values:['multiple']}])">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicRemoveTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          [id]="toolbarItemsIds['remove']"
+          icon="trash">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['remove']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = dataItem of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Show/Hide the Filter Panel' | translate }"
+              [options]="{tooltips: 'Show/hide filters panel'}"
+              [visible]="showHideFilterPanelButton && inCrud"
+              [type]="toolbarItemType.Filter"
+              text="Filter"
+              icon="filter"
+              template="basicFilterTemplate"
+              menuItemTemplate="basicMenuTemplate"
+              location="after"
+              locateInMenu="auto">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicFilterTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          icon="filter"
+          [id]="toolbarItemsIds['filters']">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['filters']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = data of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+    <dxi-item widget="dxButton"
+              [options]="{tooltips: 'Show/hide detail'}"
+              [visible]="showHideDetailButton && inCrud"
+              [type]="toolbarItemType.Info"
+              text="Information"
+              icon="info"
+              template="basicInfoTemplate"
+              menuItemTemplate="basicMenuTemplate"
+              location="after"
+              locateInMenu="auto"
+              [disabled]="disable([{type: 'rowSelection', values:['multiple']}])">
+    </dxi-item>
+    <div *dxTemplate="let dataItem of 'basicInfoTemplate'">
+      <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+        <dx-button
+          icon="info"
+          [id]="toolbarItemsIds['info']">
+        </dx-button>
+      </div>
+      <dx-tooltip
+        [target]="'#' + toolbarItemsIds['info']"
+        [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+        <div class="dx-tooltip-content" *dxTemplate="let data = data of 'content'">
+          {{dataItem.options.tooltips | translate}}
+        </div>
+      </dx-tooltip>
+    </div>
+
+  </ng-template>
+
+  <dxi-item *ngFor="let item of items"
+            [widget]="item.widget"
+            [location]="item.location"
+            [locateInMenu]="item.locateInMenu"
+            [text]="item.text"
+            [onClick]="item.onClick"
+            [template]="'toolbarItemTemplate' "
+            [menuItemTemplate]="'basicMenuTemplate'"
+            [icon]="item.icon"
+            [type]="item.type"
+            [options]="item.options"
+            [disabled]="disable(item.disableConditions)">
+  </dxi-item>
+
+  <div *dxTemplate="let dataItem of 'toolbarItemTemplate' let i = index" [attr.data-index]="i">
+    <div (mouseenter)="showDynamicTooltip(dataItem.type)" (mouseleave)="showTooltip.visible = false;">
+      <dx-button
+        [icon]="dataItem.icon"
+        [id]="toolbarItemsIds[dataItem.type]"
+        (onClick)="dataItem.onClick">
+      </dx-button>
+    </div>
+    <dx-tooltip
+      [target]="'#' + toolbarItemsIds[dataItem.type]"
+      [visible]="showTooltip.visible && showTooltip.type === dataItem.type">
+      <div class="dx-tooltip-content" *dxTemplate="let data = dataItem of 'content'">
+        {{dataItem.options.tooltip | translate}}
+      </div>
+    </dx-tooltip>
+  </div>
+
+  <div *dxTemplate="let dataMenu of 'basicMenuTemplate'">
+    <div class="dx-item-content dx-list-item-content">
+      <div onclick=" handleItemClickedEvent($event)" type="hide-detail">{{dataMenu.text}}</div>
+    </div>
+  </div>
+
+</dx-toolbar>

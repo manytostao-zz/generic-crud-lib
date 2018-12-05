@@ -1,0 +1,14 @@
+{
+  "name": "generic-crud-lib",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^7.0.0",
+    "@angular/core": "^7.0.0",
+    "devextreme": "^18.2.3",
+    "devextreme-angular": "^18.2.3",
+    "guid-typescript": "^1.0.9",
+    "reflect-metadata": "^0.1.12",
+    "@ngx-translate/core": "^11.0.1",
+    "@ngx-translate/http-loader": "^4.0.0"
+  }
+}
