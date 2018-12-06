@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import { Guid } from 'guid-typescript';
+import {Guid} from 'guid-typescript';
 import {ToolbarItemType} from '../helpers';
 import {CrudService} from '../services/crud.service';
 

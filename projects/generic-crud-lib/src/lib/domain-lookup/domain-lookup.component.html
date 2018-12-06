@@ -1,0 +1,16 @@
+<dx-lookup
+  [dataSource]="lookupDataSource"
+  [disabled]="disabled"
+  [showClearButton]="true"
+  [closeOnOutsideClick]="true"
+  [cancelButtonText]="'Cancel' | translate"
+  [clearButtonText]="'Clean' | translate"
+  (onValueChanged)="handleOnValueChangedEvent($event)"
+  [placeholder]="'Select a value' | translate"
+  [searchPlaceholder]="'Search' | translate"
+  [noDataText]="'No data to display' | translate"
+  [title]="'Select a value' | translate"
+  [value]="entityField"
+  displayExpr="text"
+  valueExpr="value">
+</dx-lookup>
