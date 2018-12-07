@@ -1,0 +1,55 @@
+<dx-popup
+  height="auto"
+  width="auto"
+  [position]="position"
+  [showTitle]="false"
+  [showCloseButton]="false"
+  [(visible)]="isOpened">
+
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+
+      <div
+        class="card popup-card"
+        [ngClass]="classes.getValue(messageStyle)">
+
+        <div
+          class="card-header">
+          {{title | translate}}
+        </div>
+
+        <div
+          class="card-body bg-default text-dark">
+          {{message | translate: param}}
+        </div>
+        <div
+          class="card-footer">
+          <div
+            class="pull-right">
+            <dx-button
+              *ngIf="messageType !== messageTypes.Confirmation"
+              type="primary"
+              [text]="'Continue' | translate"
+              (onClick)="handleMessageButtonClickedEvent(messageResults.Continue)">
+            </dx-button>
+            &nbsp;
+            <dx-button
+              *ngIf="messageType === messageTypes.Confirmation"
+              type="primary"
+              [text]="'Cancel' | translate"
+              (onClick)="handleMessageButtonClickedEvent(messageResults.Cancel)">
+            </dx-button>
+            &nbsp;
+            <dx-button
+              *ngIf="messageType === messageTypes.Confirmation"
+              type="default"
+              [text]="'Accept' | translate"
+              (onClick)="handleMessageButtonClickedEvent(messageResults.Accept)">
+            </dx-button>
+          </div>
+        </div>
+      </div>
+    </dx-scroll-view>
+  </div>
+
+</dx-popup>

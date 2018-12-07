@@ -1,0 +1,86 @@
+<dx-tree-list
+  id="TreeContainer"
+  #TreeContainer
+  width="100%"
+  hasItemsExpr="hasChildren"
+  parentIdExpr="ParentId"
+  [dataSource]="dataTreeSource"
+  [keyExpr]="keyField"
+  [showBorders]="true"
+  [columnAutoWidth]="true"
+  [allowColumnReordering]="true"
+  [allowColumnResizing]="true"
+  [wordWrapEnabled]="true"
+  [noDataText]="'No data to show' | translate"
+  (onSelectionChanged)="handleSelectionChangedEvent($event)"
+  (onContentReady)="handleContentReadyEvent($event)"
+  (onRowExpanding)="handleRowExpandingEvent($event)"
+  (onRowExpanded)="handleRowExpandedEvent($event)">
+
+  <dxo-remote-operations
+    [filtering]="true"
+    [sorting]="!isLocalData"
+    [grouping]="!isLocalData"
+    [paging]="!isLocalData"
+    [summary]="!isLocalData">
+  </dxo-remote-operations>
+
+  <dxo-scrolling
+    mode="standard">
+  </dxo-scrolling>
+
+  <dxo-paging
+    [enabled]="true"
+    [pageSize]="10">
+  </dxo-paging>
+
+  <dxo-pager
+    [visible]="true"
+    [showPageSizeSelector]="true"
+    [showNavigationButtons]="true"
+    [allowedPageSizes]="[5, 10, 20]"
+    [showInfo]="true"
+    [infoText]="pageInfoText + ' {0}. Total: {1} ({2} ' + itemsInfoText + ')'">
+  </dxo-pager>
+
+  <dxo-search-panel
+    [visible]="true"
+    [placeholder]="'Search...' | translate"
+    [searchVisibleColumnsOnly]="true"
+    width="250">
+  </dxo-search-panel>
+
+  <dxo-header-filter
+    [visible]="true">
+  </dxo-header-filter>
+
+  <dxo-selection
+    [mode]="multipleSelection ? 'multiple': 'single'"
+    selectAllMode="page"
+    showCheckBoxesMode="none">
+  </dxo-selection>
+
+  <dxo-column-chooser
+    class="column-chooser"
+    [title]="'Column Chooser' | translate"
+    [emptyPanelText]="'Drag a column here to hide it' | translate"
+    [enabled]="true">
+  </dxo-column-chooser>
+
+  <dxi-column
+    *ngFor="let column of columns"
+    [dataField]="column.name"
+    [dataType]="column.type"
+    [allowSearch]="true"
+    [allowEditing]="column.editable === true"
+    [width]="getColumnWidth(column.type)"
+    [visible]="column.visible"
+    [allowSorting]="column.sortable"
+    [caption]="column.name | translate">
+  </dxi-column>
+</dx-tree-list>
+
+<dx-load-panel
+  [position]="{ my: 'center', at: 'center', of: '.main' }"
+  message="{'Loading...' | translate}}">
+</dx-load-panel>

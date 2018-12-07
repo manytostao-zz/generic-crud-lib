@@ -1,0 +1,85 @@
+<div [ngSwitch]="widgetConfiguration.widgetName">
+
+  <dx-date-box
+    *ngSwitchCase="'date'"
+    [(value)]="entity[field]"
+    (onValueChanged)="handleValueChangedEvent()"
+    [type]="widgetConfiguration.options.type"
+    [disabled]="disabled">
+  </dx-date-box>
+
+  <dx-text-area
+    *ngSwitchCase="'textarea'"
+    [(value)]="entity[field]"
+    (onValueChanged)="handleValueChangedEvent()"
+    [disabled]="disabled">
+  </dx-text-area>
+
+  <dx-check-box
+    *ngSwitchCase="'checkbox'"
+    [(value)]="entity[field]"
+    (onValueChanged)="handleValueChangedEvent()"
+    [disabled]="disabled">
+  </dx-check-box>
+
+  <gcl-domain-lookup
+    *ngSwitchCase="'domain'"
+    [domainName]="widgetConfiguration.options.domainName"
+    [disabled]="disabled"
+    [(entityField)]="entity[field]"
+    (valueChanged)="handleValueChangedEvent()">
+  </gcl-domain-lookup>
+
+  <gcl-entity-image
+    *ngSwitchCase="'image'"
+    [entityId]="entity.Id"
+    [disabled]="disabled"
+    [(entityField)]="entity[field]"
+    (imageChanged)="handleValueChangedEvent()">
+  </gcl-entity-image>
+
+  <gcl-entity-search
+    *ngSwitchCase="'entity-search'"
+    (selectedEntityChange)="handleValueChangedEvent()"
+    [entityType]="widgetConfiguration.options.entityType"
+    [properties]="widgetConfiguration.options.properties"
+    [containerInstance]="entity"
+    [disabled]="disabled"
+    [required]="widgetConfiguration.required">
+  </gcl-entity-search>
+
+  <gcl-entity-lookup
+    *ngSwitchCase="'entity-lookup'"
+    (selectedEntityChanged)="handleValueChangedEvent()"
+    [entityType]="widgetConfiguration.options.entityType"
+    [properties]="widgetConfiguration.options.properties"
+    [containerInstance]="entity"
+    [displayText]="widgetConfiguration.displayText"
+    [disabled]="disabled">
+  </gcl-entity-lookup>
+
+  <gcl-crud
+    *ngSwitchCase="'detail'"
+    toolbarCssClass="navbar navbar-expand-lg navbar-light bg-light"
+    [editable]=!disabled
+    [showAddEdit]="false"
+    [showFilterPanel]="false"
+    [showToolbarHideDetailButton]="false"
+    [entityType]="widgetConfiguration.options.entityType"
+    [(entitiesList)]="entity[field]"
+    (entityChanged)="handleValueChangedEvent()"
+    [isLocalData]="true">
+  </gcl-crud>
+
+  <gcl-add-edit
+    *ngSwitchCase="'entity-extension'"
+    [entityType]="widgetConfiguration.options.entityType"
+    [(entity)]="entity[field]"
+    [isLocalData]="true"
+    [entityId]="entity.Id"
+    [editable]="!disabled"
+    [inCrud]="false"
+    (entityChanged)="handleValueChangedEvent()">
+  </gcl-add-edit>
+
+</div>

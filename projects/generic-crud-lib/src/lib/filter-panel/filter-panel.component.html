@@ -1,0 +1,433 @@
+<div class="card">
+  <div class="card-header">
+    {{'Filters panel' | translate}}
+
+    <dx-button
+      (onmouseenter)="isTooltipPopupVisible = true"
+      (onmouseleave)="isTooltipPopupVisible = false"
+      id="showFilterPopup"
+      class="pull-right"
+      icon="preferences"
+      type="normal"
+      (click)="handleFilterSelectorItemClickedEvent()"
+      hint="{{'Choose Field to Filters' | translate}}">
+    </dx-button>
+
+  </div>
+
+  <div class="card-body" id="demo">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <form
+            class="form-inline form-inline-spaced"
+            *ngFor="let field of fieldVisiblesCol1">
+
+            <label
+              class="form-inline-label"
+              style="width: 30%">
+              {{field.name | translate}}:
+            </label>
+
+            <dx-select-box
+              *ngIf="field.dataType ==='string'"
+              [dataSource]="filterStringAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='date'"
+              [dataSource]="filterDateAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              [(selectedItem)]="itemSelected"
+              (onValueChanged)="onBetweenSelected($event,field)"
+              [(value)]="filters[field.fieldName].operator"
+              width="25%">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='number'"
+              [dataSource]="filterNumberAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator"
+              (onValueChanged)="onBetweenSelected($event,field)">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='boolean'"
+              [dataSource]="filterBooleanAttributes"
+              displayExpr="Name"
+              valueExpr="Name"
+              [showClearButton]="true"
+              placeholder="{{'Filter'| translate }}"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType === 'entity'"
+              [dataSource]="filterLookupAttributes"
+              displayExpr="Name"
+              valueExpr="ID"
+              [showClearButton]="true"
+              placeholder="{{'Filter'| translate }}"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='domain'"
+              [dataSource]="filterDomainAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator"
+              align="rigth">
+            </dx-select-box>
+
+            <div style="width: 40%"
+                 *ngIf="field.dataType === 'boolean'">
+              <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                  <dx-check-box
+                    align="center"
+                    *ngIf="field.dataType === 'boolean'"
+                    (onValueChanged)="onCheckBoxBooleanToggled($event, field.fieldName)"
+                    [(value)]="filters[field.fieldName].value">
+                  </dx-check-box>
+                </div>
+                <div class="col-sm-4"></div>
+              </div>
+
+            </div>
+            <dx-text-box
+              *ngIf="field.dataType ==='string'"
+              placeholder="{{'Write to find...' | translate}}"
+              width="40%"
+              [(value)]="filters[field.fieldName].value">
+            </dx-text-box>
+            <dx-date-box
+              *ngIf="field.between === false && field.dataType ==='date'"
+              type="date"
+              placeholder="{{'Select Date...' | translate}}"
+              [(value)]="filters[field.fieldName].value">
+              width="40%">
+            </dx-date-box>
+            <dx-date-box
+              *ngIf="field.between === true && field.dataType ==='date'"
+              [(value)]="filters[field.fieldName].value"
+              placeholder="{{'Select Date...' | translate}}"
+              type="date"
+              width="20%">
+            </dx-date-box>
+            <dx-date-box
+              *ngIf="field.between === true && field.dataType ==='date'"
+              [(value)]="filters[field.fieldName].value2"
+              placeholder="{{'Select Date...' | translate}}"
+              type="date"
+              width="20%">
+            </dx-date-box>
+            <dx-number-box
+              *ngIf="field.between === false && field.dataType ==='number'"
+              [(value)]="filters[field.fieldName].value"
+              placeholder="{{'Write to find...' | translate}}"
+              [showSpinButtons] = true
+              width="40%">
+            </dx-number-box>
+            <dx-number-box
+              *ngIf="field.between === true && field.dataType ==='number'"
+              placeholder="{{'Write to find...' | translate}}"
+              [showSpinButtons] = true
+              width="20%"
+              [(value)]="filters[field.fieldName].value">
+            </dx-number-box>
+            <dx-number-box
+              *ngIf="field.between === true && field.dataType ==='number'"
+              placeholder="{{'Write to find...' | translate}}"
+              [showSpinButtons] = true
+              width="20%"
+              [(value)]="filters[field.fieldName].value2">
+            </dx-number-box>
+            <dx-drop-down-box
+              *ngIf="field.dataType === 'entity'"
+              [(value)]="filters[field.fieldName].value"
+              valueExpr="Id"
+              [showClearButton]="true"
+              [dataSource]="dataSource"
+              [displayExpr]="dropDownDisplayExpr"
+              (onOpened)="handleDropDownClickedEvent(field.opDataType, field.opFilterableFields)"
+              placeholder="{{'Select a' | translate}} {{field.fieldName | translate}}"
+              width="40%"
+            >
+
+              <div *dxTemplate="let data of 'content'">
+                <dx-data-grid
+                  [dataSource]="dataSource"
+                  [columns]="field.opFilterableFields"
+                  [selection]="{ mode: 'multiple' }"
+                  [hoverStateEnabled]="true"
+                  [paging]="{ enabled: true, pageSize: 10 }"
+                  [scrolling]="{ mode: 'infinite' }"
+                  [height]="500"
+                  (onSelectionChanged)="onDropDownValueChange($event,field.fieldName)"
+                >
+                </dx-data-grid>
+              </div>
+            </dx-drop-down-box>
+            <gcl-domain-lookup
+              *ngIf="field.dataType === 'domain'"
+              [domainName]="field.opDataType"
+              [disabled]="false"
+              [(entityField)]="filters[field.fieldName].value"
+              style="width: 40%">
+            </gcl-domain-lookup>
+          </form>
+        </div>
+        <div class="col-sm-6">
+          <form
+            class="form-inline form-inline-spaced"
+            *ngFor="let field of fieldVisiblesCol2">
+
+            <label
+              class="form-inline-label"
+              style="width: 30%">
+              {{field.name | translate}}:
+            </label>
+
+            <dx-select-box
+              *ngIf="field.dataType ==='string'"
+              [dataSource]="filterStringAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator"
+              align="rigth">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='date'"
+              [dataSource]="filterDateAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              [(selectedItem)]="itemSelected"
+              (onValueChanged)="onBetweenSelected($event,field)"
+              [(value)]="filters[field.fieldName].operator"
+              width="25%">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='number'"
+              [dataSource]="filterNumberAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              width="25%"
+              (onValueChanged)="onBetweenSelected($event,field)"
+              [(value)]="filters[field.fieldName].operator">
+
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='boolean'"
+              [dataSource]="filterBooleanAttributes"
+              placeholder="{{'Filter'| translate }}"
+              displayExpr="Name"
+              valueExpr="Name"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType === 'entity'"
+              [dataSource]="filterLookupAttributes"
+              placeholder="{{'Filter'| translate }}"
+              displayExpr="Name"
+              valueExpr="ID"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator">
+            </dx-select-box>
+            <dx-select-box
+              *ngIf="field.dataType ==='domain'"
+              [dataSource]="filterDomainAttributes"
+              displayExpr="ID"
+              valueExpr="Name"
+              placeholder="{{'Filter'| translate }}"
+              [showClearButton]="true"
+              width="25%"
+              [(value)]="filters[field.fieldName].operator"
+              align="rigth">
+            </dx-select-box>
+
+            <div style="width: 40%"
+                 *ngIf="field.dataType === 'boolean'">
+              <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                  <dx-check-box
+                    align="center"
+                    *ngIf="field.dataType === 'boolean'"
+                    (onValueChanged)="onCheckBoxBooleanToggled($event, field.fieldName)"
+                    [(value)]="filters[field.fieldName].value">
+                  </dx-check-box>
+                </div>
+                <div class="col-sm-4"></div>
+              </div>
+
+            </div>
+            <dx-text-box
+              *ngIf="field.dataType ==='string'"
+              placeholder="{{'Write to find...' | translate}}"
+              width="40%"
+              [(value)]="filters[field.fieldName].value">
+            </dx-text-box>
+            <dx-date-box
+              *ngIf="field.between === false && field.dataType ==='date'"
+              type="date"
+              [(value)]="filters[field.fieldName].value"
+              placeholder="{{'Select Date...' | translate}}"
+              width="40%">
+            </dx-date-box>
+            <dx-date-box
+              *ngIf="field.between === true && field.dataType ==='date'"
+              placeholder="{{'Select Date...' | translate}}"
+              type="date"
+              width="20%"
+              [(value)]="filters[field.fieldName].value">
+            </dx-date-box>
+            <dx-date-box
+              *ngIf="field.between === true && field.dataType ==='date'"
+              type="date"
+              placeholder="{{'Select Date...' | translate}}"
+              width="20%"
+              [(value)]="filters[field.fieldName].value">
+            </dx-date-box>
+            <dx-number-box
+              *ngIf="field.between === false && field.dataType ==='number'"
+              placeholder="{{'Write to find...' | translate}}"
+              [showSpinButtons] = true
+              [(value)]="filters[field.fieldName].value"
+              width="40%">
+            </dx-number-box>
+            <dx-number-box
+              *ngIf="field.between === true && field.dataType ==='number'"
+              placeholder="{{'Write to find...' | translate}}"
+              [showSpinButtons] = true
+              width="20%"
+              [(value)]="filters[field.fieldName].value">>
+            </dx-number-box>
+            <dx-number-box
+              *ngIf="field.between === true && field.dataType ==='number'"
+              placeholder="{{'Write to find...' | translate}}"
+              [showSpinButtons] = true
+              width="20%"
+              [(value)]="filters[field.fieldName].value2">
+            </dx-number-box>
+            <dx-drop-down-box
+              *ngIf="field.dataType === 'entity'"
+              [(value)]="filters[field.fieldName].value"
+              valueExpr="Id"
+              [showClearButton]="true"
+              [dataSource]="dataSource"
+              [displayExpr]="dropDownDisplayExpr"
+              (onOpened)="handleDropDownClickedEvent(field.opDataType, field.opFilterableFields)"
+              placeholder="{{'Select a' | translate}} {{field.fieldName | translate}}"
+              width="40%"
+            >
+
+              <div *dxTemplate="let data of 'content'">
+                <dx-data-grid
+                  [dataSource]="dataSource"
+                  [columns]="field.opFilterableFields"
+                  [selection]="{ mode: 'single' }"
+                  [hoverStateEnabled]="true"
+                  [paging]="{ enabled: true, pageSize: 10 }"
+                  [scrolling]="{ mode: 'infinite' }"
+                  [height]="400"
+                  (onSelectionChanged)="onDropDownValueChange($event,field.fieldName)"
+                  [columnAutoWidth]="true"
+                >
+                </dx-data-grid>
+              </div>
+            </dx-drop-down-box>
+
+            <gcl-domain-lookup
+              *ngIf="field.dataType === 'domain'"
+              [domainName]="field.opDataType"
+              [disabled]="false"
+              [(entityField)]="filters[field.fieldName].value"
+              style="width: 40%">
+            </gcl-domain-lookup>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="card-footer">
+    <dx-button
+      type="default"
+      text="{{'Accept' | translate }}"
+      class="pull-right"
+      (onClick)="handleAcceptButtonClickedEvent()">
+    </dx-button>
+    &nbsp;
+    &nbsp;
+    <dx-button
+      id="cleanButton"
+      class="pull-right"
+      type="primary"
+      text="{{'Clean' | translate }}"
+      hint="{{'Clear all fields' | translate }}"
+      (click)="onReset()">
+    </dx-button>
+  </div>
+</div>
+
+<dx-popup
+  [(visible)]="popupFilterVisible"
+  [title]="'Select the filters for' | translate"
+  width="30%"
+  [closeOnOutsideClick]="true">
+
+  <div *dxTemplate="let data of 'content'" class="popup-content">
+
+    <dx-form>
+
+      <dxi-item
+        itemType="group"
+        [colCount]="2">
+
+        <dxi-item
+          *ngFor="let field of fieldsFilterMetadata"
+          class="dx-field">
+
+          <dx-check-box
+            [text]="field.name"
+            [value]="field.visible === true"
+            (onValueChanged)="onCheckBoxToggled($event,field)">
+          </dx-check-box>
+
+        </dxi-item>
+
+      </dxi-item>
+
+    </dx-form>
+
+  </div>
+
+</dx-popup>

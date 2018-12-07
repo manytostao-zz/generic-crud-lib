@@ -1,0 +1,86 @@
+<gcl-toolbar
+  [cssClass]="toolbarCssClass"
+  [items]="toolbarItems"
+  [inCrud]="true"
+  [showDefaultButtons]="showToolbarDefaultButtons"
+  [showAcceptButton]="showToolbarAcceptButton"
+  [showCancelButton]="showToolbarCancelButton"
+  [showAddButton]="showToolbarAddButton"
+  [showEditButton]="showToolbarEditButton"
+  [showRemoveButton]="showToolbarRemoveButton"
+  [showHideDetailButton]="showToolbarHideDetailButton"
+  [showHideFilterPanelButton]="showToolbarHideFilterPanelButton"
+  [selectedEntities]="selectedEntities">
+</gcl-toolbar>
+
+<br>
+
+<gcl-filter-panel
+  *ngIf="showFilterPanel"
+  [entityName]="entityType">
+
+</gcl-filter-panel>
+
+<br>
+
+<gcl-selectable-grid
+  *ngIf="!isTree"
+  [keyField]="keyField"
+  [entityType]="entityType"
+  [entitiesList]="entitiesList"
+  [editable]="editable"
+  [isLocalData]="isLocalData"
+  [multipleSelection]="multipleSelection">
+</gcl-selectable-grid>
+
+<gcl-selectable-tree
+  *ngIf="isTree"
+  [keyField]="keyField"
+  [entityType]="entityType"
+  [entitiesListTree]="entitiesList"
+  [isLocalData]="isLocalData"
+  [multipleSelection]="multipleSelection">
+</gcl-selectable-tree>
+
+<br>
+
+<gcl-add-edit
+  *ngIf="showAddEdit"
+  [entityType]="entityType"
+  [(entity)]="addEditEntity"
+  [isLocalData]="isLocalData"
+  [entityId]="selectedEntities && selectedEntities[0] ? selectedEntities[0].Id : ''"
+  [editable]="addEditEditable && editable"
+  [inCrud]="true">
+</gcl-add-edit>
+
+<gcl-custom-dialog
+  #confirmationDialog
+  [messageStyle]="messageStyles.Warning"
+  [messageType]="messageTypes.Confirmation"
+  [title]="'Attention!' | translate"
+  [message]="confirmationDialogMessage | translate">
+</gcl-custom-dialog>
+
+<gcl-custom-dialog
+  #errorDialog
+  [messageStyle]="messageStyles.Error"
+  [title]="'Error' | translate"
+  [message]="errorDialogMessage | translate">
+</gcl-custom-dialog>
+
+<dx-load-panel
+  [visible]="loadPanelVisible"
+  [position]="{ my: 'center', at: 'center', of: '.main' }"
+  message="{{'Loading...' | translate}}">
+</dx-load-panel>
+
+<dx-toast
+  id="successToast"
+  #successToast
+  type="success"
+  [message]="'Element successfully processed!' | translate"
+  [position]="{ my: 'center top', at: 'center top', of: 'window' }"
+  [closeOnClick]="true"
+  width="300">
+</dx-toast>

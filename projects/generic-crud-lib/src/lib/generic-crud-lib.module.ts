@@ -12,6 +12,16 @@ import {CrudService} from './services/crud.service';
 import {DomainLookupComponent} from './domain-lookup/domain-lookup.component';
 import {EntityFieldComponent} from './entity-field/entity-field.component';
 import {EntityImageComponent} from './entity-image/entity-image.component';
+import {CrudComponent} from './crud/crud.component';
+import {FilterPanelComponent} from './filter-panel/filter-panel.component';
+import {SelectableGridComponent} from './selectable-grid/selectable-grid.component';
+import {SelectableTreeComponent} from './selectable-tree/selectable-tree.component';
+import {AddEditComponent} from './add-edit/add-edit.component';
+import {CustomDialogComponent} from './custom-dialog/custom-dialog.component';
+import {CustomFieldTemplateComponent} from './custom-field-template/custom-field-template.component';
+import {EntitySearchComponent} from './entity-search/entity-search.component';
+import {EntityLookupComponent} from './entity-lookup/entity-lookup.component';
+import {DialogService} from './services/dialog.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -23,7 +33,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToolbarComponent,
     DomainLookupComponent,
     EntityFieldComponent,
-    EntityImageComponent
+    EntityImageComponent,
+    CrudComponent,
+    FilterPanelComponent,
+    SelectableGridComponent,
+    SelectableTreeComponent,
+    AddEditComponent,
+    CustomDialogComponent,
+    CustomFieldTemplateComponent,
+    EntitySearchComponent,
+    EntityLookupComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +61,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToolbarComponent,
     DomainLookupComponent,
     EntityFieldComponent,
-    EntityImageComponent
+    EntityImageComponent,
+    CrudComponent,
+    FilterPanelComponent,
+    SelectableGridComponent,
+    SelectableTreeComponent,
+    AddEditComponent,
+    CustomDialogComponent,
+    CustomFieldTemplateComponent,
+    EntitySearchComponent,
+    EntityLookupComponent
   ],
-  providers: [CrudService]
+  providers: [DialogService]
 })
 export class GenericCrudLibModule {
 }

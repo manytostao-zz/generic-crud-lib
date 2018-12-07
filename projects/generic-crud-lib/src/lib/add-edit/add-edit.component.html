@@ -1,0 +1,150 @@
+<dx-scroll-view
+  id="scrollViewContainer"
+  #scrollViewContainer
+  showScrollbar="onHover">
+
+  <dx-load-panel
+    [visible]="isLoadPanelVisible"
+    [position]="loadPanelPosition"
+    message="{{'Loading...' | translate}}">
+  </dx-load-panel>
+
+  <dx-toast
+    id="successToast"
+    #successToast
+    type="success"
+    [message]="'Element successfully processed' | translate"
+    [position]="loadPanelPosition"
+    [closeOnClick]="true"
+    width="300">
+  </dx-toast>
+
+  <dx-form
+    id="addEditForm"
+    #addEditForm
+    class="bordered-form"
+    [(formData)]="entity">
+
+    <dxi-item
+      *ngFor="let group of fieldsLocationMetadata.getValue('general').keys().sort()"
+      itemType="group"
+      [caption]="(group | translate).toUpperCase()"
+      [colCount]="2">
+
+      <dxi-item
+        *ngFor="let field of fieldsLocationMetadata.getValue('general').getValue(group)"
+        [dataField]="field"
+        [colSpan]="getItemColSpan(field)"
+        [template]="getItemTemplateName(field)"
+        [label]="fieldsWidgetMetadata.getValue(field).widgetName && fieldsWidgetMetadata.getValue(field).widgetName === 'detail' ?{ visible: false, text:fieldsWidgetMetadata.getValue(field).displayText ? fieldsWidgetMetadata.getValue(field).displayText : field  } : { visible: true, text: fieldsWidgetMetadata.getValue(field).displayText ? fieldsWidgetMetadata.getValue(field).displayText : field }"
+        [disabled]="!editable && getItemTemplateName(field) === ''">
+
+        <dxi-validation-rule
+          *ngIf="fieldsWidgetMetadata.getValue(field).required"
+          type="required"
+          [message]="fieldsWidgetMetadata.getValue(field).required.message | translate">
+        </dxi-validation-rule>
+
+        <dxi-validation-rule
+          *ngFor="let rule of fieldsWidgetMetadata.getValue(field).validations"
+          type="pattern"
+          [pattern]="rule.pattern"
+          [message]="rule.message | translate">
+        </dxi-validation-rule>
+      </dxi-item>
+
+    </dxi-item>
+
+    <dxi-item
+      *ngIf="fieldsLocationMetadata.keys().slice(1, fieldsLocationMetadata.keys().length).length > 0"
+      itemType="tabbed"
+      [tabPanelOptions]="{
+        onContentReady: handleTabPanelContentReadyEvent,
+        formWidth: formWidth
+      }">
+
+      <dxi-tab
+        *ngFor="let category of fieldsLocationMetadata.keys().slice(1, fieldsLocationMetadata.keys().length)"
+        [tabTemplate]="category.trim() + 'TabTemplate'"
+        [title]="(category | translate).toUpperCase()">
+
+        <dxi-item
+          *ngFor="let group of fieldsLocationMetadata.getValue(category).keys().sort()"
+          itemType="group"
+          [caption]="(group | translate).toUpperCase()"
+          [colCount]="2">
+
+          <dxi-item
+            *ngFor="let field of fieldsLocationMetadata.getValue(category).getValue(group)"
+            [dataField]="field"
+            [colSpan]="getItemColSpan(field)"
+            [template]="getItemTemplateName(field)"
+            [label]="fieldsWidgetMetadata.getValue(field).widgetName && (fieldsWidgetMetadata.getValue(field).widgetName === 'detail' || fieldsWidgetMetadata.getValue(field).widgetName === 'entity-extension') ?{ visible: false, text:fieldsWidgetMetadata.getValue(field).displayText ? fieldsWidgetMetadata.getValue(field).displayText : field  } : { visible: true, text: fieldsWidgetMetadata.getValue(field).displayText ? fieldsWidgetMetadata.getValue(field).displayText : field }"
+            [disabled]="!editable && getItemTemplateName(field) === ''">
+
+            <dxi-validation-rule
+              *ngIf="fieldsWidgetMetadata.getValue(field).required"
+              type="required"
+              [message]="fieldsWidgetMetadata.getValue(field).required.message | translate">
+            </dxi-validation-rule>
+
+            <dxi-validation-rule
+              *ngFor="let rule of fieldsWidgetMetadata.getValue(field).validations"
+              type="pattern"
+              [pattern]="rule.pattern"
+              [message]="rule.message | translate">
+            </dxi-validation-rule>
+          </dxi-item>
+
+        </dxi-item>
+
+      </dxi-tab>
+
+    </dxi-item>
+
+    <div *ngFor="let category of fieldsLocationMetadata.keys()">
+      <div *dxTemplate=" let tabData of category.trim() + 'TabTemplate'">
+        <span
+          (mouseenter)="showDynamicTooltip(category)"
+          (mouseleave)="showTabTooltip.visible = false;"
+          [id]="tabsIds[category]"
+          class="dx-tab-text">
+          {{tabData.title}}
+        </span>
+        <dx-tooltip
+          [visible]="showTabTooltip.visible && showTabTooltip.tab == category"
+          [target]="'#' + tabsIds[category]">
+          <div class="dx-tooltip-content" *dxTemplate="let tooltipData = tabData of 'content'">
+            {{(category | translate).toUpperCase()}}
+          </div>
+        </dx-tooltip>
+      </div>
+    </div>
+
+    <div *ngFor="let field of fieldsWidgetMetadata.keys()">
+      <div *dxTemplate="let data of field + 'Template'">
+        <div *ngIf="isLoaded">
+          <gcl-custom-field-template
+            [widgetConfiguration]="fieldsWidgetMetadata.getValue(field)"
+            [field]="field"
+            [(entity)]="entity"
+            (valueChangedEvent)="handleCustomFieldTemplateValueChangedEvent()"
+            [disabled]="!editable">
+          </gcl-custom-field-template>
+        </div>
+        <dx-load-indicator [visible]="!isLoaded"></dx-load-indicator>
+      </div>
+    </div>
+
+  </dx-form>
+
+</dx-scroll-view>
+
+<gcl-custom-dialog
+  #addEditDialog
+  [title]="dialogTitle"
+  [messageStyle]="dialogStyle"
+  [messageType]="dialogType"
+  [message]="dialogMessage"
+  [param]="dialogParam">
+</gcl-custom-dialog>

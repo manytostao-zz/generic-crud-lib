@@ -1,0 +1,90 @@
+<dx-data-grid
+  id="gridContainer"
+  #gridContainer
+  width="100%"
+  [keyExpr]="keyField"
+  [dataSource]="dataSource"
+  [showBorders]="true"
+  [columnAutoWidth]="true"
+  [wordWrapEnabled]="true"
+  [allowColumnReordering]="true"
+  [allowColumnResizing]="true"
+  [twoWayBindingEnabled]="editable"
+  [cacheEnabled]="isLocalData"
+  [noDataText]="'No data to show' | translate"
+  (onSelectionChanged)="handleSelectionChangedEvent($event)"
+  (onContentReady)="handleContentReadyEvent($event)">
+
+  <dxo-remote-operations
+    [filtering]="!isLocalData"
+    [sorting]="!isLocalData"
+    [grouping]="!isLocalData"
+    [paging]="!isLocalData"
+    [summary]="!isLocalData">
+  </dxo-remote-operations>
+
+  <dxo-paging
+    [pageSize]="5">
+  </dxo-paging>
+
+  <dxo-pager
+    [visible]="true"
+    [showPageSizeSelector]="true"
+    [showNavigationButtons]="true"
+    [allowedPageSizes]="[5, 10, 20]"
+    [showInfo]="true"
+    [infoText]="pageInfoText + ' {0}. Total: {1} ({2} ' + itemsInfoText + ')'">
+  </dxo-pager>
+
+  <dxo-search-panel
+    [visible]="true"
+    [placeholder]="'Search...' | translate"
+    [searchVisibleColumnsOnly]="true"
+    width="250">
+  </dxo-search-panel>
+
+  <dxo-scrolling
+    showScrollbar="always">
+  </dxo-scrolling>
+
+  <dxo-editing
+    *ngIf="editable"
+    mode="cell"
+    [allowUpdating]="true">
+  </dxo-editing>
+
+  <dxo-selection
+    [mode]="multipleSelection ? 'multiple': 'single'"
+    selectAllMode="page"
+    showCheckBoxesMode="none">
+  </dxo-selection>
+
+  <dxo-column-chooser
+    class="column-chooser"
+    [title]="'Column Chooser' | translate"
+    [emptyPanelText]="'Drag a column here to hide it' | translate"
+    [enabled]="true">
+  </dxo-column-chooser>
+
+  <dxo-load-panel
+    text="{{'Loading...' | translate}}">
+  </dxo-load-panel>
+
+  <dxi-column
+    *ngFor="let column of columns"
+    [dataField]="column.name"
+    [dataType]="column.type"
+    [allowEditing]="column.editable === true"
+    [width]="getColumnWidth(column.type)"
+    [visible]="column.visible"
+    [allowSorting]="column.sortable"
+    [caption]="column.name | translate">
+  </dxi-column>
+
+</dx-data-grid>
+
+<dx-load-panel
+  [visible]="loadPanelVisible"
+  [position]="{ my: 'center', at: 'center', of: '.main' }"
+  message="{{'Loading...' | translate}}">
+</dx-load-panel>

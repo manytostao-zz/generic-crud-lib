@@ -1,0 +1,35 @@
+<div class="dx-field">
+  <dx-lookup class="float-left" translate style="width: 90%"
+             [value]="selectedEntity.Id"
+             [dataSource]="dataSourcelookup"
+             [title]="textComponent.placeholder +' '+displayTextComponent"
+             [valueExpr]="properties[0].name"
+             [displayExpr]="getDisplayExpr"
+             [searchExpr]= "filterValue"
+             [cancelButtonText] = "textComponent.Close"
+             [closeOnOutsideClick]="true"
+             [placeholder]= "textComponent.placeholder "
+             [searchPlaceholder]= "textComponent.searchPlaceholder"
+             [refreshingText] =  "textComponent.refreshingText"
+             [noDataText] =  "textComponent.noDataText"
+             [pullingDownText]= "textComponent.pullingDownText"
+             searchMode ='contains'
+             (onValueChanged)="onValueChangedLookup($event)"
+              itemTemplate="lookupItem"
+             [disabled]="disabled"
+             (onOpened)="handleLookupOpenedEvent($event)"
+             #EntityLookup>
+    <div *dxTemplate="let item of 'lookupItem'; let i = index">
+      <div
+        style="display:inline-list-item"
+        [style.font-style]="i % 2 == 0 ? 'normal' : 'normal'">
+                <span *ngFor="let proper of properties; let i = index;">
+                  <span *ngIf="proper.show">
+                  {{item[proper.name]}}
+                  <i *ngIf="i < properties.length-1">-</i>
+                  </span>
+                </span>
+      </div>
+    </div>
+  </dx-lookup>
+</div>
