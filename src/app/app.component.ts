@@ -1,17 +1,22 @@
 import {Component} from '@angular/core';
-import {ApplicationDomainsService} from 'generic-crud-lib';
-import {DomainsService} from './domains.service';
+
+import {DomainsService} from 'generic-crud-lib';
+import {ModelsMapService} from 'generic-crud-lib';
+import {ApplicationDomainsService} from './application-domains.service';
+import {ApplicationModelsMapService} from './application-models-map.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [{provide: ApplicationDomainsService, useClass: DomainsService}]
+  providers: [
+    {provide: DomainsService, useClass: ApplicationDomainsService},
+    {provide: ModelsMapService, useClass: ApplicationModelsMapService}
+  ]
 })
 export class AppComponent {
-  title = 'generic-crud-lib-app';
 
-  constructor(private applicationDomainsService: ApplicationDomainsService) {
-    console.log(applicationDomainsService.getDomain('tipo_cargo_descuento'));
+  constructor() {
   }
+
 }

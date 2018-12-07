@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export abstract class ApplicationDomainsService {
+export abstract class DomainsService {
   abstract getDomain(domainName: string): any[];
 }

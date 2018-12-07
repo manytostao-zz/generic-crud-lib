@@ -6,7 +6,7 @@ import {
   Output
 } from '@angular/core';
 
-import {ApplicationDomainsService} from '../services/application-domains.service';
+import {DomainsService} from '../services/domains.service';
 
 @Component({
   selector: 'gcl-domain-lookup',
@@ -56,15 +56,14 @@ export class DomainLookupComponent implements OnInit {
     this.entityFieldChange.emit(this._entityField);
   }
 
-  constructor(private applicationDomainsService: ApplicationDomainsService) {
+  constructor(private domainsService: DomainsService) {
   }
 
   /**
    * Inicializa el componente estableciendo la fuente de datos de la lista desplegable
    */
   ngOnInit() {
-    console.log(this.domainName, this.applicationDomainsService);
-    this.lookupDataSource = this.applicationDomainsService.getDomain(this.domainName);
+    this.lookupDataSource = this.domainsService.getDomain(this.domainName);
   }
 
   /**

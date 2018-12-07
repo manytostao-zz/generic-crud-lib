@@ -9,15 +9,20 @@ import {DevExtremeModule} from 'devextreme-angular';
 import {GenericCrudLibComponent} from './generic-crud-lib.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {CrudService} from './services/crud.service';
-import {ApplicationDomainsService} from './services/application-domains.service';
 import {DomainLookupComponent} from './domain-lookup/domain-lookup.component';
+import {EntityFieldComponent} from './entity-field/entity-field.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
 @NgModule({
-  declarations: [GenericCrudLibComponent, ToolbarComponent, DomainLookupComponent],
+  declarations: [
+    GenericCrudLibComponent,
+    ToolbarComponent,
+    DomainLookupComponent,
+    EntityFieldComponent
+  ],
   imports: [
     BrowserModule,
     DevExtremeModule,
@@ -30,7 +35,12 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  exports: [GenericCrudLibComponent, ToolbarComponent, DomainLookupComponent],
+  exports: [
+    GenericCrudLibComponent,
+    ToolbarComponent,
+    DomainLookupComponent,
+    EntityFieldComponent
+  ],
   providers: [CrudService]
 })
 export class GenericCrudLibModule {

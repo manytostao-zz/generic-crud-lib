@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 
-import {ApplicationDomainsService} from 'generic-crud-lib';
+import {DomainsService} from 'generic-crud-lib';
 import {ApplicationDomains} from './domains';
 
 @Injectable()
-export class DomainsService extends ApplicationDomainsService {
+export class ApplicationDomainsService extends DomainsService {
 
   getDomain(domainName: string) {
     return ApplicationDomains[domainName];
