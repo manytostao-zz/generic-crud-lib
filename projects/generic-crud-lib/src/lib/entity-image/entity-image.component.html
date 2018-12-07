@@ -1,0 +1,17 @@
+<div [ngClass]="!disabled?'row bordered-box':'bordered-box-disabled'">
+  <div class="col-md-5">
+    <img [src]="imageBlob" [alt]="'Image' | translate">
+  </div>
+  <div class="col-md-7" *ngIf="!disabled">
+    <dx-file-uploader
+      accept="image/*"
+      name="image"
+      uploadMode="useForm"
+      readyToUploadMessage=""
+      width="70%"
+      [selectButtonText]="'Select file' | translate"
+      [labelText]="'or Drop file here' | translate"
+      (onValueChanged)="handleFileUploaderValueChangedEvent($event)">
+    </dx-file-uploader>
+  </div>
+</div>

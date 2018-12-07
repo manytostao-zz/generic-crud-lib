@@ -5,6 +5,7 @@ import * as ModelsMap from './models-map';
 
 @Injectable()
 export class ApplicationModelsMapService extends ModelsMapService {
+
   getModelsMap(): any {
     return ModelsMap;
   }

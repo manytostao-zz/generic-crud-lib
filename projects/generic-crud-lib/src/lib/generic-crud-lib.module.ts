@@ -11,6 +11,7 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
 import {CrudService} from './services/crud.service';
 import {DomainLookupComponent} from './domain-lookup/domain-lookup.component';
 import {EntityFieldComponent} from './entity-field/entity-field.component';
+import {EntityImageComponent} from './entity-image/entity-image.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -21,7 +22,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     GenericCrudLibComponent,
     ToolbarComponent,
     DomainLookupComponent,
-    EntityFieldComponent
+    EntityFieldComponent,
+    EntityImageComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     GenericCrudLibComponent,
     ToolbarComponent,
     DomainLookupComponent,
-    EntityFieldComponent
+    EntityFieldComponent,
+    EntityImageComponent
   ],
   providers: [CrudService]
 })
