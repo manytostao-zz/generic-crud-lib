@@ -251,8 +251,6 @@ export class CrudComponent implements OnInit, OnDestroy {
       this.showToolbarEditButton = false;
       this.showToolbarHideFilterPanelButton = false;
     }
-
-    console.log(this.showToolbarDefaultButtons);
   }
 
   /**

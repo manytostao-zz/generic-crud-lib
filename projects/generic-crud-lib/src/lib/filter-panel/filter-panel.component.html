@@ -188,7 +188,7 @@
               *ngIf="field.dataType === 'domain'"
               [domainName]="field.opDataType"
               [disabled]="false"
-              [(entityField)]="filters[field.fieldName].value"
+              [(domainValue)]="filters[field.fieldName].value"
               style="width: 40%">
             </gcl-domain-lookup>
           </form>
@@ -367,7 +367,7 @@
               *ngIf="field.dataType === 'domain'"
               [domainName]="field.opDataType"
               [disabled]="false"
-              [(entityField)]="filters[field.fieldName].value"
+              [(domainValue)]="filters[field.fieldName].value"
               style="width: 40%">
             </gcl-domain-lookup>
           </form>

@@ -197,6 +197,7 @@ export class SelectableGridComponent implements OnInit, OnChanges, OnDestroy, Af
 
             if (column && column.type === 'domain') {
               const domain = this.domainsService.getDomain(column.options.domainName);
+              itemData[field + 'Value'] = itemData[field];
               itemData[field] = domain.find((value) => {
                 return value.value === itemData[field];
               }).text;
@@ -308,7 +309,6 @@ export class SelectableGridComponent implements OnInit, OnChanges, OnDestroy, Af
         }
       }
     }
-    console.log(this.keyField);
   }
 
   /**

@@ -195,7 +195,6 @@ export class EntityLookupComponent implements OnInit, OnChanges, OnDestroy {
 
     if (selectedEntityChanged) {
       this.selectedEntityChanged.emit();
-      console.log('selectedEntityChanged.emit');
     }
   }
 

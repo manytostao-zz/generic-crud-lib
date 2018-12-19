@@ -34,26 +34,26 @@ export class DomainLookupComponent implements OnInit {
    */
   @Output() valueChanged = new EventEmitter<any>();
 
-  private _entityField: any = '';
+  private _domainValue: any = '';
   /**
    * Evento que se lanza cuando cambia el valor de la propiedad selectedEntity
    */
-  @Output() entityFieldChange = new EventEmitter<string>();
+  @Output() domainValueChange = new EventEmitter<string>();
 
   /**
    * @ignore
    */
-  @Input() get entityField(): string {
+  @Input() get domainValue(): string {
 
-    return this._entityField;
+    return this._domainValue;
   }
 
   /**
    * @ignore
    */
-  set entityField(value: string) {
-    this._entityField = value;
-    this.entityFieldChange.emit(this._entityField);
+  set domainValue(value: string) {
+    this._domainValue = value;
+    this.domainValueChange.emit(this._domainValue);
   }
 
   constructor(private domainsService: DomainsService) {
@@ -70,7 +70,7 @@ export class DomainLookupComponent implements OnInit {
    * Maneja el evento onValueChanged de la lista desplegable y emite el propio del componente
    */
   handleOnValueChangedEvent($event: any) {
-    this.entityField = $event.value;
+    this.domainValue = $event.value;
     this.valueChanged.emit();
   }
 }

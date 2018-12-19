@@ -1,22 +1,15 @@
 import {Injectable} from '@angular/core';
 
 import {Observable, of} from 'rxjs';
-import {Guid} from 'guid-typescript';
 
 import {BaseService, HasImageInterface, BaseEntity, Filter} from 'generic-crud-lib';
 import {TestEntityModel} from './test-entity.model';
+import {TestData} from './test-data';
 
 @Injectable()
 export class TestEntityService extends BaseService implements HasImageInterface {
 
-  testEntityArray: TestEntityModel[] = [];
-
-  constructor() {
-    super();
-    for (let i = 0; i < 5; i++) {
-      this.testEntityArray.push(new TestEntityModel(Guid.create().toString(), 'test_domain_value_' + (i + 1).toString()));
-    }
-  }
+  testEntityArray: TestEntityModel[] = new TestData().testEntityArray;
 
   add(entity: BaseEntity): Observable<any> {
     return undefined;
@@ -27,11 +20,15 @@ export class TestEntityService extends BaseService implements HasImageInterface 
   }
 
   getAll(first?: number, count?: number, filters?: any[], orders?: any[], complete?: boolean): Observable<any> {
+    console.log(this.testEntityArray);
     return of(this.testEntityArray);
   }
 
   getById(id: string, complete?: boolean): Observable<any> {
-    return undefined;
+    const testEntity = this.testEntityArray.find(function (value, index, array) {
+      return value.Id.toString() === id;
+    });
+    return of(testEntity);
   }
 
   getImageByEntityId(id: string): Observable<any> {

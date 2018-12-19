@@ -15,7 +15,6 @@ import {ApplicationSettingsService} from './application-settings.service';
     {provide: ModelsMapService, useClass: ApplicationModelsMapService},
     {provide: SettingsService, useClass: ApplicationSettingsService},
     {provide: BaseService, useClass: TestEntityService},
-    {provide: 'HasImageInterface', useClass: TestEntityService}
   ]
 })
 export class AppComponent {
