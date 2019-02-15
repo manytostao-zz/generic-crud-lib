@@ -1,23 +1,19 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {GenericCrudLibModule} from 'generic-crud-lib';
+import { GenericCrudLibModule } from 'generic-crud-lib';
 
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app.routing';
-import {TestCrudComponent} from './test-crud/test-crud.component';
-import {TestAddEditComponent} from './test-add-edit/test-add-edit.component';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestCrudComponent,
-    TestAddEditComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
-    GenericCrudLibModule
+    GenericCrudLibModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

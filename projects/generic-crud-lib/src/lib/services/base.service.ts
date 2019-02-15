@@ -13,10 +13,9 @@ import {Filter} from '../model/filter.model';
 @Injectable()
 export abstract class BaseService {
 
-  servicesMap: Collections.Dictionary<string, any>;
+  servicesMap: Collections.Dictionary<string, any> = new Collections.Dictionary<string, any>();
 
   constructor() {
-    this.servicesMap = new Collections.Dictionary<string, any>();
   }
 
   abstract getAll(first?: number, count?: number, filters?: any[], orders?: any[], complete?: boolean): Observable<any>;

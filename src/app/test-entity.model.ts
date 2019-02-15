@@ -63,7 +63,7 @@ export class TestEntityModel extends BaseEntity {
     dataType: 'entity',
     visible: true,
     options: {
-      entityType: 'LanguageDTO',
+      entityType: 'TestEntityModel2',
       visible: true,
       filterableFields: ['Code', 'Description'],
     },

@@ -1,13 +1,19 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Observable, of} from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { BaseService, HasImageInterface, BaseEntity, Filter } from 'generic-crud-lib';
 
-import {BaseService, HasImageInterface, BaseEntity, Filter} from 'generic-crud-lib';
-import {TestEntityModel} from './test-entity.model';
-import {TestData} from './test-data';
+import { TestData } from './test-data';
+import { TestEntityModel } from './test-entity.model';
+import { TestEntity2Service } from './test-entity2.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TestEntityService extends BaseService implements HasImageInterface {
+
+  constructor(private testEntity2Service: TestEntity2Service) {
+    super();
+    this.servicesMap.setValue('TestEntityModel2', testEntity2Service);
+  }
 
   testEntityArray: TestEntityModel[] = new TestData().testEntityArray;
 
@@ -20,7 +26,6 @@ export class TestEntityService extends BaseService implements HasImageInterface 
   }
 
   getAll(first?: number, count?: number, filters?: any[], orders?: any[], complete?: boolean): Observable<any> {
-    console.log(this.testEntityArray);
     return of(this.testEntityArray);
   }
 

@@ -1,18 +1,18 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import * as Collections from 'typescript-collections';
 
-import {DxToastComponent} from 'devextreme-angular';
-import {Subscription} from 'rxjs';
-import {CustomDialogComponent} from '../custom-dialog/custom-dialog.component';
-import {FilterPanelComponent} from '../filter-panel/filter-panel.component';
-import {MessageResult, MessageStyle, MessageType, ToolbarItemType} from '../helpers';
-import {BaseEntity} from '../model/base-entity.model';
-import {BaseService} from '../services/base.service';
-import {CrudService} from '../services/crud.service';
-import {DialogService} from '../services/dialog.service';
-import {ModelsMapService} from '../services/models-map.service';
+import { DxToastComponent } from 'devextreme-angular';
+import { Subscription } from 'rxjs';
+import { CustomDialogComponent } from '../custom-dialog/custom-dialog.component';
+import { FilterPanelComponent } from '../filter-panel/filter-panel.component';
+import { MessageResult, MessageStyle, MessageType, ToolbarItemType } from '../helpers';
+import { BaseEntity } from '../model/base-entity.model';
+import { BaseService } from '../services/base.service';
+import { CrudService } from '../services/crud.service';
+import { DialogService } from '../services/dialog.service';
+import { ModelsMapService } from '../services/models-map.service';
 
 /**
  * Componente que genera elementos visuales para listar, crear, actualizar y eliminar entidades
@@ -262,13 +262,13 @@ export class CrudComponent implements OnInit, OnDestroy {
       switch ($event.itemData.type) {
         case ToolbarItemType.Add:
           if (!this.isLocalData) {
-            this.router.navigate(['../add'], {relativeTo: this.route});
+            this.router.navigate(['../add'], { relativeTo: this.route });
           }
           break;
 
         case ToolbarItemType.Edit:
           if (!this.isLocalData) {
-            this.router.navigate(['../edit/' + this.selectedEntities[0].Id], {relativeTo: this.route});
+            this.router.navigate(['../edit/' + this.selectedEntities[0].Id], { relativeTo: this.route });
           }
           break;
 
@@ -276,12 +276,12 @@ export class CrudComponent implements OnInit, OnDestroy {
           this.addEditEditable = this.isLocalData;
           this.showAddEdit = !this.showAddEdit;
           this.addEditEntity = this.selectedEntities[0];
-          this.onToolbarItemClicked.emit({type: $event.itemData.type, selectedEntities: this.selectedEntities});
+          this.onToolbarItemClicked.emit({ type: $event.itemData.type, selectedEntities: this.selectedEntities });
           break;
 
         case ToolbarItemType.Filter:
           this.showFilterPanel = !this.showFilterPanel;
-          this.onToolbarItemClicked.emit({type: $event.itemData.type, selectedEntities: this.selectedEntities});
+          this.onToolbarItemClicked.emit({ type: $event.itemData.type, selectedEntities: this.selectedEntities });
           break;
 
         case ToolbarItemType.Remove:
@@ -291,7 +291,7 @@ export class CrudComponent implements OnInit, OnDestroy {
           break;
 
         default:
-          this.onToolbarItemClicked.emit({type: $event.itemData.type, selectedEntities: this.selectedEntities});
+          this.onToolbarItemClicked.emit({ type: $event.itemData.type, selectedEntities: this.selectedEntities });
           break;
       }
     });
@@ -312,7 +312,7 @@ export class CrudComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.componentSubscriptions.push(entitySelectedEventSubscription);
+    // this.componentSubscriptions.push(entitySelectedEventSubscription);
 
     const entityChangedEvent = this.crudService.entityChangedEvent.subscribe(
       (entityChanged: boolean) => {
